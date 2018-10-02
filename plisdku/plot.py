@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+import mpl_toolkits.mplot3d.art3d as art3d
 
 def imshow(img, *args, **kwargs):
     """
@@ -39,3 +41,31 @@ def imshow(img, *args, **kwargs):
         kwargs["extent"] = extent
     
     return plt.imshow(img, *args, **kwargs)
+
+
+def pltbox(bounds, *args, **kwargs):
+    """
+    Plot a box from bounds.  Bounds is [[x0,y0],[x1,y1]].
+    """
+    b = bounds
+    x = b[[0, 1, 1, 0, 0], 0]
+    y = b[[0, 0, 1, 1, 0], 1]
+    return plt.plot(x, y, *args, **kwargs)
+
+
+def patches(faces, vertices, **kwargs):
+    v = [[vertices[f,:] for f in face] for face in faces]
+    p3d = art3d.Poly3DCollection(v)
+    
+    # ALPHA MUST BE SET BEFORE COLOR!!!  or it will be ignored.  (Nice one guys.)
+    if 'alpha' in kwargs:
+        p3d.set_alpha(kwargs['alpha'])
+    if 'edgecolor' in kwargs:
+        p3d.set_edgecolor(kwargs['edgecolor'])
+    if 'facecolor' in kwargs:
+        p3d.set_facecolor(kwargs['facecolor'])
+    else:
+        p3d.set_facecolor('C0') # this is to make sure that the alpha is changed.
+    
+    plt.gca().add_collection(p3d)
+
