@@ -35,8 +35,8 @@ def imshow(img, *args, **kwargs):
             if nx == 2:
                 dx = x1-x0
             else:
-                dx = (x1-x0)/nx
-            
+                dx = (x1-x0)/(nx-1)
+
             return [x0-dx/2, x1+dx/2]
         
         if "x" in kwargs:
