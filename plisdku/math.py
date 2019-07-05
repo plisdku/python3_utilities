@@ -17,7 +17,7 @@ def bin_average(x, new_shape):
     x_mean = x_reshaped
     for axis in range(len(tmp_shape)-1, 0, -2):
         x_mean = x_mean.mean(axis)
-
+    
     return x_mean
 
 
@@ -43,6 +43,10 @@ def bin_average(x, new_shape):
 #     cols = np.concatenate((col, col+1))
     
 #     return vals, rows, cols
+
+
+
+
 
 def interp_weights_nd(x_query, *xy_grid):
     """
