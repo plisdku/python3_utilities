@@ -1,5 +1,23 @@
 import numpy as np
 
+def split_into_blocks(array, block_size):
+    """Reorder a block matrix into a 3D array.
+    
+    Let A be an array of size (nx*mx, ny*my).
+    """
+    
+    block_size = np.asarray(block_size)
+    
+    in_indices = np.arange(array.size).reshape(array.shape)
+    channel_stride = in_indices[:block_size[0], :block_size[1]].ravel()
+    super_indices = in_indices[::block_size[0], ::block_size[1]]
+    reordered_indices = channel_stride[:,None,None] + super_indices[None,:,:]
+    
+    out_shape = channel_stride.shape + super_indices.shape
+    out_array = array.ravel()[reordered_indices.ravel()].reshape(out_shape)
+    return out_array
+
+
 def quick_lstsq(a,b):
     return np.linalg.solve(a.T@a, a.T@b)
 
