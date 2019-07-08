@@ -11,6 +11,6 @@ setup(name="sugar",
     author_email="paul.c.hansen@gmail.com",
     #license="MIT",
     packages=["plisdku"],
-    install_requires= install_requires
+    install_requires= install_requires,
     python_requires=">=3",
     zip_safe=False)
