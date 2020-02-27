@@ -3,7 +3,7 @@ from setuptools import setup
 install_requires = ["numpy"]
 version = "0.1.0"
 
-setup(name="sugar",
+setup(name="plisdku",
     version=version,
     description="Paul's Python 3 utilities",
     author="Paul Hansen",
