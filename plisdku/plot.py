@@ -5,6 +5,17 @@ import mpl_toolkits.mplot3d.art3d as art3d
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
 
+def _pixel_edges(x):
+    if len(x) > 1:
+        dx = np.diff(x)
+        x = np.concatenate(( [x[0]-dx[0]/2], x[:-1] + dx/2, [x[-1]+dx[-1]/2] ))
+    else:
+        if x[0] == 0:
+            x = np.array([-0.5, 0.5])
+        else:
+            x = np.array([x - 0.5*np.abs(x[0]), x + 0.5*np.abs(x[0])])
+    return x
+
 def pcolor(*args, **kwargs):
     """Call matplotlib.pyplot.pcolormesh() so pixels are centered at desired coordinates.
     
@@ -33,11 +44,23 @@ def pcolor(*args, **kwargs):
         x = np.arange(img.shape[1])
         y = np.arange(img.shape[0])
 
-    dx = x[1]-x[0]
-    dy = y[1]-y[0]
+    # Get pixel edges.
+
+    x = _pixel_edges(x)
+    y = _pixel_edges(y)
+
+    # dx = np.diff(x)
+    # dy = np.diff(y)
+    # x = np.concatenate(( [x[0]-dx[0]/2], dx + x[0] ))
+    # y = np.concatenate(( [y[0]-dy[0]/2], dy + y[0] ))
+
+    # x = np.interp(np.arange(len(x)+1), np.linspace(0, len(x))
+
+    # dx = x[1]-x[0]
+    # dy = y[1]-y[0]
     
-    x = np.linspace(x[0]-dx/2, x[-1]+dx/2, len(x)+1)
-    y = np.linspace(y[0]-dy/2, y[-1]+dy/2, len(y)+1)
+    # x = np.linspace(x[0]-dx/2, x[-1]+dx/2, len(x)+1)
+    # y = np.linspace(y[0]-dy/2, y[-1]+dy/2, len(y)+1)
 
     if "centered" in kwargs:
         if "vmin" in kwargs:
@@ -68,6 +91,7 @@ def pcolor(*args, **kwargs):
         kwargs["vmax"] = vmax
 
     return plt.pcolormesh(x,y,img, **kwargs)
+
 
 
 
